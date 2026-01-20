@@ -1,4 +1,8 @@
 #include <Arduino.h>
+#include "SharedData.h"
+#include "Config.h"
+
+GlobalState currentState = IDLE;
 
 // put function declarations here:
 int myFunction(int, int);

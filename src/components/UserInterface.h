@@ -11,7 +11,7 @@ class UserInterface {
         void displayMessage(const String &message, int row);
         
         void setLedState(int ledIndex, bool state);
-        void blinkLed(int ledIndex);
+        void toggleLed(int ledIndex);
     private:
         LiquidCrystal_I2C* lcd;
         int ledPins[3];

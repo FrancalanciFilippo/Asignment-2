@@ -36,7 +36,7 @@ void UserInterface::setLedState(int ledIndex, bool state) {
     ledStates[ledIndex] = state;
 }
 
-void UserInterface::blinkLed(int ledIndex) {
+void UserInterface::toggleLed(int ledIndex) {
     if (ledIndex < 0 || ledIndex >= 3) return;
     bool newState = !ledStates[ledIndex];
     setLedState(ledIndex, newState);
