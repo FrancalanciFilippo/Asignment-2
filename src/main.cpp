@@ -2,7 +2,8 @@
 #include "SharedData.h"
 #include "Config.h"
 
-GlobalState currentState = IDLE;
+GlobalState volatile currentState = IDLE;
+bool volatile preAlarmActive = false;
 
 // put function declarations here:
 int myFunction(int, int);

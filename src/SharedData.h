@@ -7,10 +7,10 @@ enum GlobalState {
   TAKE_OFF,
   IDLE_OUT,
   LANDING,
-  PRE_ALLARM,
   ALARM
 };
 
-extern GlobalState currentState; 
+extern volatile GlobalState currentState; 
+extern volatile bool preAlarmActive;
 
 #endif
