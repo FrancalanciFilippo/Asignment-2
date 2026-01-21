@@ -66,7 +66,8 @@ void setup() {
   scheduler.addTask(droneHangarTask);
   scheduler.addTask(tempMonitorTask);
   scheduler.addTask(blinkTask);
-
+  userInterface->displayMessage("DRONE HANGAR", 1);
+  userInterface->displayMessage("DRONE IN", 2);
 }
 
 

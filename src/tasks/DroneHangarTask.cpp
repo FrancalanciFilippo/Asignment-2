@@ -34,9 +34,10 @@ void DroneHangarTask::tick() {
                 String msg = messageService->getMessage();
                 if(msg == "TAKEOFF"){
                     door->open();
-                    ui->displayMessage("TAKE OFF", 1);
+                    ui->displayMessage("TAKE OFF", 2);
                     currentState = TAKE_OFF;
                     counter1 = 0;
+                    return;
                 }
             }
         }
@@ -47,7 +48,7 @@ void DroneHangarTask::tick() {
             counter1++;
             if(counter1 >= duration1){
                 door->close();
-                ui->displayMessage("DRONE OUT", 1);
+                ui->displayMessage("DRONE OUT", 2);
                 currentState = IDLE_OUT;
                 counter1 = duration1;
             }
@@ -59,21 +60,22 @@ void DroneHangarTask::tick() {
         break;
     case IDLE_OUT:
         if(messageService->messageAvailable()){
-                String msg = messageService->getMessage();
-                if(msg == "LANDING" && pir->isMotionDetected()){
-                    door->open();
-                    ui->displayMessage("LANDING", 1);
-                    currentState = LANDING;
-                    counter2 = 0;
-                }
+            String msg = messageService->getMessage();
+            if(msg == "LANDING" && pir->isMotionDetected()){
+                door->open();
+                ui->displayMessage("LANDING", 2);
+                currentState = LANDING;
+                counter2 = 0;
+                return;
             }
+        }
         break;
     case LANDING:
         if(sonar->GetDistance() <= closeDistance){
             counter2++;
             if(counter2 >= duration2){
                 door->close();
-                ui->displayMessage("DRONE IN", 1);
+                ui->displayMessage("DRONE IN", 2);
                 currentState = IDLE;
                 counter2 = duration2;
             }
@@ -90,7 +92,8 @@ void DroneHangarTask::tick() {
             currentState = IDLE;
             ui->displayMessage("SYSTEM RESET", 1);
             delay(1000);
-            ui->displayMessage("DRONE IN", 1);
+            ui->displayMessage("DRONE HANGAR", 1);
+            ui->displayMessage("DRONE IN", 2);
         }
         break;
     default:
