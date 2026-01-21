@@ -9,7 +9,7 @@
 
 class TempMonitorTask : public Task {
     public:
-        TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, float T3, float T4);
+        TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, long T3, long T4);
         void init(int period) override;
         void tick() override;
     private:

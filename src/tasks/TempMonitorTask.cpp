@@ -1,6 +1,6 @@
 #include "TempMonitorTask.h"
 
-TempMonitorTask::TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, float T3, float T4) : Task() {
+TempMonitorTask::TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, long T3, long T4) : Task() {
     this->tempSensor = tempSensor;
     this->ui = ui;
     this->temp1 = temp1;
@@ -24,13 +24,14 @@ void TempMonitorTask::tick() {
     }
     float temperature = tempSensor->readTemperature();
 
-    if(currentState == IDLE || currentState == LANDING || currentState == TAKE_OFF || preAlarmActive){
+    if(currentState == IDLE || currentState == LANDING || currentState == TAKE_OFF){
         handleAlarm(temperature);
         handlePreAlarm(temperature);
     }
     else{
         counterT3 = 0;
         counterT4 = 0;
+        preAlarmActive = false;
     }
 }
 

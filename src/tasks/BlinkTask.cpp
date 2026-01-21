@@ -1,7 +1,7 @@
 #include "BlinkTask.h"
 
-BlinkTask::BlinkTask(int ledPin, UserInterface* ui) : Task() {
-    this->ledIndex = ledPin;
+BlinkTask::BlinkTask(int ledIndex, UserInterface* ui) : Task() {
+    this->ledIndex = ledIndex;
     this->ui = ui;
 }
 

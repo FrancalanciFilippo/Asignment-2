@@ -10,8 +10,14 @@ void ServoDoor::init() {
 }
 void ServoDoor::open(){
     servo.write(90);
+    isOpen = true;
 }
 
 void ServoDoor::close(){
     servo.write(0);
+    isOpen = false;
+}
+
+bool ServoDoor::isDoorOpen(){
+    return isOpen;
 }

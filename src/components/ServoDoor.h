@@ -10,9 +10,11 @@ class ServoDoor {
         void init();
         void open();
         void close();
+        bool isDoorOpen();
     private:
         Servo servo;
         int pin;
+        bool isOpen;
 };
 
 #endif

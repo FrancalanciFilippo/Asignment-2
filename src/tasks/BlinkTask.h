@@ -8,7 +8,7 @@
 
 class BlinkTask : public Task{
     public:
-        BlinkTask(int ledPin, UserInterface* ui);
+        BlinkTask(int ledIndex, UserInterface* ui);
         void init(int period) override;
         void tick() override;
     private:
@@ -16,4 +16,4 @@ class BlinkTask : public Task{
         UserInterface* ui;
 };
 
-#endif BLINK_TASK_H
+#endif
