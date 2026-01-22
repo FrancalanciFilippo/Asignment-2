@@ -13,7 +13,7 @@
 
 class DroneHangarTask : public Task {
 public:
-    DroneHangarTask(ServoDoor* door, Button* resetButton, Sonar* sonar, Pir* pir, UserInterface* ui, MessageService* messageService, float openDistance, float closeDistance, long D1, long D2);
+    DroneHangarTask(ServoDoor* door, Button* resetButton, Sonar* sonar, Pir* pir, UserInterface* ui, MessageService* messageService, float distDroneIn, float distDroneOut, long D1, long D2);
     void init(int period) override;
     void tick() override;
 private:
@@ -23,14 +23,15 @@ private:
     Pir* pir;
     UserInterface* ui;
     MessageService* messageService;
-    long openDistance;
-    long closeDistance;
-    float D1;
-    float D2;
+    float distDroneIn;
+    float distDroneOut;
+    long D1;
+    long D2;
     int duration1;
     int duration2;
     int counter1;
     int counter2;
+    bool canLand;
 };
 
 

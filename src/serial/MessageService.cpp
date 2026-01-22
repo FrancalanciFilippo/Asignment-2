@@ -7,6 +7,7 @@ MessageService::MessageService(){
 
 void MessageService::init(){
     Serial.begin(9600);
+    Serial.setTimeout(100);
 }
 
 bool MessageService::messageAvailable(){
@@ -31,6 +32,6 @@ String MessageService::getMessage(){
     return "";
 }
 
-void MessageService::sendMessage(const String& message){
-    Serial.println(message);
+void MessageService::sendMessage(MessageType type, const String& message){
+    Serial.println(String(type)+":"+message);
 }

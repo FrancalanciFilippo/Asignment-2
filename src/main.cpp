@@ -17,66 +17,50 @@
 GlobalState volatile currentState = IDLE;
 bool volatile preAlarmActive = false;
 
-Button* resetButton;
-Pir* pirSensor;
-ServoDoor* servoDoor;
-Sonar* sonarSensor;
-TempSensor* tempSensor;
-UserInterface* userInterface;
-MessageService* messageService;
+Button resetButton(PIN_BUTTON_RESET);
+Pir pirSensor(PIN_PIR);
+ServoDoor servoDoor(PIN_SERVO);
+Sonar sonarSensor(PIN_SONAR_TRIG, PIN_SONAR_ECHO);
+TempSensor tempSensor(PIN_TEMP_SENSOR);
+UserInterface userInterface(LCD_ADDRESS, LCD_COLS, LCD_ROWS, PIN_LED_1, PIN_LED_2, PIN_LED_3);
+MessageService messageService;
 
-DroneHangarTask* droneHangarTask;
-TempMonitorTask* tempMonitorTask;
-BlinkTask* blinkTask;
+DroneHangarTask droneHangarTask(&servoDoor, &resetButton, &sonarSensor, &pirSensor, &userInterface, &messageService, DIST_DRONE_IN, DIST_DRONE_OUT, TIME_CHECK_OUT, TIME_CHECK_IN);
+TempMonitorTask tempMonitorTask(&tempSensor, &userInterface, &messageService, TEMP_PRE_ALARM, TEMP_ALARM, TIME_PRE_ALARM, TIME_ALARM);
+BlinkTask blinkTask(1, &userInterface);
 
 Scheduler scheduler;
 
-// put function declarations here:
-int myFunction(int, int);
-
 void initComponents() {
-  resetButton->init();
-  pirSensor->init();
-  servoDoor->init();
-  sonarSensor->init();
-  tempSensor->init();
-  userInterface->init();
-  messageService->init();
+  resetButton.init();
+  pirSensor.init();
+  servoDoor.init();
+  sonarSensor.init();
+  tempSensor.init();
+  userInterface.init();
+  messageService.init();
 }
 void initTasks() {
-  droneHangarTask->init(PERIOD_HANGAR_TASK);
-  tempMonitorTask->init(PERIOD_TEMP_TASK);
-  blinkTask->init(PERIOD_BLINK_TASK);
+  droneHangarTask.init(PERIOD_HANGAR_TASK);
+  tempMonitorTask.init(PERIOD_TEMP_TASK);
+  blinkTask.init(PERIOD_BLINK_TASK);
 }
 
 void setup() {
-  resetButton = new Button(PIN_BUTTON_RESET);
-  pirSensor = new Pir(PIN_PIR);
-  servoDoor = new ServoDoor(PIN_SERVO);
-  sonarSensor = new Sonar(PIN_SONAR_TRIG, PIN_SONAR_ECHO);
-  tempSensor = new TempSensor(PIN_TEMP_SENSOR);
-  userInterface = new UserInterface(LCD_ADDRESS, LCD_COLS, LCD_ROWS, PIN_LED_1, PIN_LED_2, PIN_LED_3);
-  messageService = new MessageService();
   initComponents();
-  droneHangarTask = new DroneHangarTask(servoDoor, resetButton, sonarSensor, pirSensor, userInterface, messageService, DIST_DRONE_OUT, DIST_DRONE_IN, TIME_CHECK_OUT, TIME_CHECK_IN);
-  tempMonitorTask = new TempMonitorTask(tempSensor, userInterface, TEMP_PRE_ALARM, TEMP_ALARM, TIME_PRE_ALARM, TIME_ALARM);
-  blinkTask = new BlinkTask(1, userInterface);
   initTasks();
   scheduler.init(100);
-  scheduler.addTask(droneHangarTask);
-  scheduler.addTask(tempMonitorTask);
-  scheduler.addTask(blinkTask);
-  userInterface->displayMessage("DRONE HANGAR", 1);
-  userInterface->displayMessage("DRONE IN", 2);
+  scheduler.addTask(&droneHangarTask);
+  scheduler.addTask(&tempMonitorTask);
+  scheduler.addTask(&blinkTask);
+  userInterface.displayMessage("DRONE HANGAR", 1);
+  userInterface.displayMessage("DRONE IN", 2);
+  messageService.sendMessage(HANGAR, "NORMAL");
+  messageService.sendMessage(DRONE, "RESTING");
 }
 
 
 
 void loop() {
   scheduler.schedule();
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
 }

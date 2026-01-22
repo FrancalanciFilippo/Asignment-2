@@ -5,16 +5,18 @@
 #include "Task.h"
 #include "../components/TempSensor.h"
 #include "../components/UserInterface.h"
+#include "../serial/MessageService.h"
 #include "SharedData.h"
 
 class TempMonitorTask : public Task {
     public:
-        TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, long T3, long T4);
+        TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, MessageService* messageService, float temp1, float temp2, long T3, long T4);
         void init(int period) override;
         void tick() override;
     private:
         TempSensor* tempSensor;
         UserInterface* ui;
+        MessageService* messageService;
         float temp1;
         float temp2;
         float T3;

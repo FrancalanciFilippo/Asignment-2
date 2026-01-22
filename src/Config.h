@@ -18,8 +18,8 @@
 #define LCD_ROWS 2
 
 // --- SYSTEM PARAMETERS (Distances cm) ---
-#define DIST_DRONE_OUT 100  
-#define DIST_DRONE_IN 10   
+#define DIST_DRONE_OUT 10  
+#define DIST_DRONE_IN 50
 
 // --- SYSTEM PARAMETERS (Times ms) ---
 #define TIME_CHECK_OUT 3000 

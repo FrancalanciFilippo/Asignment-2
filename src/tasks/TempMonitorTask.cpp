@@ -1,12 +1,13 @@
 #include "TempMonitorTask.h"
 
-TempMonitorTask::TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, float temp1, float temp2, long T3, long T4) : Task() {
+TempMonitorTask::TempMonitorTask(TempSensor* tempSensor, UserInterface* ui, MessageService* messageService, float temp1, float temp2, long T3, long T4) : Task() {
     this->tempSensor = tempSensor;
     this->ui = ui;
     this->temp1 = temp1;
     this->temp2 = temp2;
     this->T3 = T3;
     this->T4 = T4;
+    this->messageService = messageService;
 }
 
 void TempMonitorTask::init(int period) {
@@ -40,7 +41,6 @@ void TempMonitorTask::handlePreAlarm(float temperature) {
         counterT3++;
         if(counterT3 >= time3){
             preAlarmActive = true;
-            ui->displayMessage("PRE-ALARM!", 1);
             counterT3 = time3;
         }
     }
@@ -48,7 +48,6 @@ void TempMonitorTask::handlePreAlarm(float temperature) {
         counterT3 = 0;
         if(preAlarmActive){
             preAlarmActive = false;
-            ui->displayMessage("TEMP NORMAL", 1);
         }
     }
 }
@@ -60,6 +59,7 @@ void TempMonitorTask::handleAlarm(float temperature) {
             currentState = ALARM;
             ui->displayMessage("ALARM!", 1);
             ui->setLedState(2, true);
+            messageService->sendMessage(HANGAR, "ALARM");
             counterT4 = time4;
         }
     }

@@ -13,14 +13,8 @@ class Scheduler {
 
 public:
     Scheduler();
-
-    /* Initializes the scheduler with the base tick period */
     void init(int basePeriod);
-
-    /* Adds a new task to the scheduling list. Returns false if list is full */
     bool addTask(Task* task);
-
-    /* Main loop function: checks time and runs tasks if needed */
     void schedule();
 };
 

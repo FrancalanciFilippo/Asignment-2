@@ -3,12 +3,19 @@
 
 #include <Arduino.h>
 
+enum MessageType {
+    HANGAR,
+    DRONE,
+    DISTANCE,
+    ERROR
+};
+
 class MessageService {
 
 public:
     MessageService();
     void init();
-    void sendMessage(const String& message);
+    void sendMessage(MessageType type, const String& message);
     String getMessage();
     bool messageAvailable();
 private:
